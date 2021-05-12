@@ -19,10 +19,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-/**
- * Java Object representing a single sample. Also includes utility methods for obtaining samples
- * from assets.
- */
 class Sample {
 
     private int mSampleID;
@@ -40,12 +36,6 @@ class Sample {
         mAlbumArtID = albumArtID;
     }
 
-    /**
-     * Gets portrait of the composer for a sample by the sample ID.
-     * @param context The application context.
-     * @param sampleID The sample ID.
-     * @return The portrait Bitmap.
-     */
     static Bitmap getComposerArtBySampleID(Context context, int sampleID){
         Sample sample = Sample.getSampleByID(context, sampleID);
         int albumArtID = context.getResources().getIdentifier(
@@ -54,12 +44,6 @@ class Sample {
         return BitmapFactory.decodeResource(context.getResources(), albumArtID);
     }
 
-    /**
-     * Gets a single sample by its ID.
-     * @param context The application context.
-     * @param sampleID The sample ID.
-     * @return The sample object.
-     */
     static Sample getSampleByID(Context context, int sampleID) {
         JsonReader reader;
         try {
@@ -79,17 +63,12 @@ class Sample {
         return null;
     }
 
-    /**
-     * Gets and ArrayList of the IDs for all of the Samples from the JSON file.
-     * @param context The application context.
-     * @return The ArrayList of all sample IDs.
-     */
     static ArrayList<Integer> getAllSampleIDs(Context context){
-        JsonReader reader;
+        JsonReader reader; // for reading json files
         ArrayList<Integer> sampleIDs = new ArrayList<>();
         try {
             reader = readJSONFile(context);
-            reader.beginArray();
+            reader.beginArray(); // telling that start object is JSON ARRAY
             while (reader.hasNext()) {
                 sampleIDs.add(readEntry(reader).getSampleID());
             }
@@ -100,11 +79,6 @@ class Sample {
         return sampleIDs;
     }
 
-    /**
-     * Method used for obtaining a single sample from the JSON file.
-     * @param reader The JSON reader object pointing a single sample JSON object.
-     * @return The Sample the JsonReader is pointing to.
-     */
     private static Sample readEntry(JsonReader reader) {
         Integer id = -1;
         String composer = null;
@@ -113,12 +87,12 @@ class Sample {
         String albumArtID = null;
 
         try {
-            reader.beginObject();
+            reader.beginObject(); // telling that start object is JSON OBJECT
             while (reader.hasNext()) {
-                String name = reader.nextName();
+                String name = reader.nextName(); // getting the KEY of NEXT OBJECT
                 switch (name) {
                     case "name":
-                        title = reader.nextString();
+                        title = reader.nextString(); // getting the VALUE of catched NEXT OBJECT
                         break;
                     case "id":
                         id = reader.nextInt();
@@ -144,12 +118,6 @@ class Sample {
         return new Sample(id, composer, title, uri, albumArtID);
     }
 
-    /**
-     * Method for creating a JsonReader object that points to the JSON array of samples.
-     * @param context The application context.
-     * @return The JsonReader object pointing to the JSON array of samples.
-     * @throws IOException Exception thrown if the sample file can't be found.
-     */
     private static JsonReader readJSONFile(Context context) throws IOException {
         AssetManager assetManager = context.getAssets();
         String uri = null;

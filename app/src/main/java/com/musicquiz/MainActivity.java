@@ -27,11 +27,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(quizIntent);
             }
         });
-        // Get the high and max score.
-        int highScore = QuizUtils.getHighScore(this);
-        int maxScore = Sample.getAllSampleIDs(this).size() - 1;
 
-        // Set the high score text.
+        int highScore = QuizUtils.getHighScore(this);
+        int maxScore = Sample.getAllSampleIDs(this).size() - 1; // this is because of ARRAY we minus 1
+
         String highScoreText = getString(R.string.high_score, highScore, maxScore);
         highScoreTextView.setText(highScoreText);
 

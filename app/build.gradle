@@ -26,6 +26,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        disable "UnsafeExperimentalUsageError",
+                "UnsafeExperimentalUsageWarning"
+        disable 'TypographyFractions','TypographyQuotes'
+    }
 }
 
 dependencies {
@@ -39,7 +44,7 @@ dependencies {
 
     //implementation 'com.google.android.exoplayer:exoplayer:2.10.5'
 
-    implementation 'androidx.core:core:1.3.1'
-    implementation 'androidx.media:media:1.2.0'
+    implementation 'androidx.core:core:1.3.2'
+    implementation 'androidx.media:media:1.3.1'
     implementation 'com.google.android.exoplayer:exoplayer:r2.2.0'
 }
